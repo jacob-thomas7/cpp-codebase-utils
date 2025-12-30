@@ -8,7 +8,7 @@ project(cpp-codebase-utils
     HOMEPAGE_URL https://github.com/jacob-thomas7/cpp-codebase-utils
 )
 
-set(UTILS_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(UTILS_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR} PARENT_SCOPE)
 
 # Check dependencies from external project
 if(NOT TARGET codebase::core)
@@ -35,11 +35,11 @@ function(create_target)
 endfunction()
 
 # Create library
-if(CORE_SHARED)
+if(UTILS_SHARED)
     create_target(SHARED)
 endif()
 
-if(CORE_STATIC)
+if(UTILS_STATIC)
     create_target(STATIC)
 endif()
 
@@ -49,5 +49,5 @@ if(TARGET utils-static)
 elseif(TARGET utils-shared)
     add_library(codebase::utils ALIAS utils-shared)
 else()
-    message(WARNING "codebase::utils was not created because neither CORE_SHARED nor CORE_STATIC were set")
+    message(WARNING "codebase::utils was not created because neither UTILS_SHARED nor UTILS_STATIC were set")
 endif()
