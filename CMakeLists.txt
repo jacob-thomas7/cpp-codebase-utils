@@ -23,7 +23,7 @@ function(create_target)
     string(TOLOWER "utils-${arg1}" TARGET_NAME)
 
     add_library(${TARGET_NAME} ${arg1}
-        src/utils/metadata.hpp
+        src/utils/metadata.cpp
     )
 
     target_include_directories(${TARGET_NAME} PUBLIC
@@ -49,5 +49,5 @@ if(TARGET utils-static)
 elseif(TARGET utils-shared)
     add_library(codebase::utils ALIAS utils-shared)
 else()
-    message(WARNING "codebase::utils was not created because neither UTILS_SHARED nor UTILS_STATIC were set")
+    message(WARNING "codebase::utils was not created because neither CORE_SHARED nor CORE_STATIC were set")
 endif()
