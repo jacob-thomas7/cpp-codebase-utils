@@ -8,6 +8,8 @@ project(UTILS
     HOMEPAGE_URL https://github.com/jacob-thomas7/cpp-codebase-utils
 )
 
+string(TOLOWER "${PROJECT_NAME}" PROJECT_NAME_LOWER)
+
 # Options
 set(UTILS_STATIC ON CACHE BOOL "Build the utils library as a static library")
 set(UTILS_SHARED OFF CACHE BOOL "Build the utils library as a shared library")
@@ -22,9 +24,9 @@ if(NOT TARGET codebase::core)
 endif()
 
 function(create_target lib_type)
-    string(TOLOWER "${PROJECT_NAME}-${lib_type}" TARGET_NAME)
+    string(TOLOWER "${PROJECT_NAME_LOWER}-${lib_type}" TARGET_NAME)
 
-    set(SRC "${UTILS_SOURCE_DIR}/src/utils")
+    set(SRC "${UTILS_SOURCE_DIR}/src/${PROJECT_NAME_LOWER}")
 
     add_library(${TARGET_NAME} ${lib_type}
         ${SRC}/metadata.cpp
@@ -47,10 +49,10 @@ if(UTILS_STATIC)
 endif()
 
 # Make sure codebase::core exists, default to static if both were created
-if(TARGET ${PROJECT_NAME}-static)
-    add_library(codebase::${PROJECT_NAME} ALIAS ${PROJECT_NAME}-static)
-elseif(TARGET core-shared)
-    add_library(codebase::${PROJECT_NAME} ALIAS ${PROJECT_NAME}-shared)
+if(TARGET ${PROJECT_NAME_LOWER}-static)
+    add_library(codebase::${PROJECT_NAME_LOWER} ALIAS ${PROJECT_NAME_LOWER}-static)
+elseif(TARGET ${PROJECT_NAME_LOWER}-shared)
+    add_library(codebase::${PROJECT_NAME_LOWER} ALIAS ${PROJECT_NAME_LOWER}-shared)
 else()
     message(WARNING "codebase::${PROJECT_NAME} was not created because neither UTILS_SHARED nor UTILS_STATIC were set")
 endif()
