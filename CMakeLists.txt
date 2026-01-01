@@ -24,7 +24,7 @@ endif()
 function(create_target lib_type)
     string(TOLOWER "${PROJECT_NAME}-${lib_type}" TARGET_NAME)
 
-    set(SRC "${UTILS_SOURCE_DIR}/src/${PROJECT_NAME}")
+    set(SRC "${UTILS_SOURCE_DIR}/src/utils")
 
     add_library(${TARGET_NAME} ${lib_type}
         ${SRC}/metadata.cpp
