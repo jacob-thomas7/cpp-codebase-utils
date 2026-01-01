@@ -23,19 +23,20 @@ if(NOT TARGET codebase::core)
     )
 endif()
 
+message(STATUS "CORE_SOURCE_DIR is found at ${CORE_SOURCE_DIR}")
+
 function(create_target lib_type)
     string(TOLOWER "${PROJECT_NAME_LOWER}-${lib_type}" TARGET_NAME)
 
     set(SRC "${UTILS_SOURCE_DIR}/src/${PROJECT_NAME_LOWER}")
-    set(INC "${${PROJECT_NAME}_SOURCE_DIR}/src/${PROJECT_NAME}")
-
+    
     add_library(${TARGET_NAME} ${lib_type}
         ${SRC}/metadata.cpp
     )
 
     target_include_directories(${TARGET_NAME} PUBLIC
-        ${INC}/include/
-        ${CORE_SOURCE_DIR}/include/
+        "${${PROJECT_NAME}_SOURCE_DIR}/include/"
+        "${CORE_SOURCE_DIR}/include/"
     )
 
     add_library(codebase::${TARGET_NAME} ALIAS ${TARGET_NAME})
