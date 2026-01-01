@@ -2,13 +2,15 @@
 cmake_minimum_required(VERSION 3.24)
 set(CMAKE_CXX_STANDARD 20)
 
-project(cpp-codebase-utils
-    VERSION 0.0.1
+project(UTILS
+    VERSION 0.0.4
     LANGUAGES CXX
     HOMEPAGE_URL https://github.com/jacob-thomas7/cpp-codebase-utils
 )
 
-set(UTILS_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR} PARENT_SCOPE)
+# Options
+set(UTILS_STATIC ON CACHE BOOL "Build the utils library as a static library")
+set(UTILS_SHARED OFF CACHE BOOL "Build the utils library as a shared library")
 
 # Check dependencies from external project
 if(NOT TARGET codebase::core)
@@ -19,15 +21,16 @@ if(NOT TARGET codebase::core)
     )
 endif()
 
-function(create_target)
-    string(TOLOWER "utils-${arg1}" TARGET_NAME)
+function(create_target lib_type)
+    string(TOLOWER "${PROJECT_NAME}-${lib_type}" TARGET_NAME)
 
-    add_library(${TARGET_NAME} ${arg1}
-        src/utils/metadata.cpp
+    set(SRC "${UTILS_SOURCE_DIR}/src/${PROJECT_NAME}")
+
+    add_library(${TARGET_NAME} ${lib_type}
+        ${SRC}/metadata.cpp
     )
 
     target_include_directories(${TARGET_NAME} PUBLIC
-        ${CORE_SOURCE_DIR}/include
         ${UTILS_SOURCE_DIR}/include
     )
 
@@ -43,11 +46,11 @@ if(UTILS_STATIC)
     create_target(STATIC)
 endif()
 
-# Make sure codebase::utils exists, default to static if both were created
-if(TARGET utils-static)
-    add_library(codebase::utils ALIAS utils-static)
-elseif(TARGET utils-shared)
-    add_library(codebase::utils ALIAS utils-shared)
+# Make sure codebase::core exists, default to static if both were created
+if(TARGET ${PROJECT_NAME}-static)
+    add_library(codebase::${PROJECT_NAME} ALIAS ${PROJECT_NAME}-static)
+elseif(TARGET core-shared)
+    add_library(codebase::${PROJECT_NAME} ALIAS ${PROJECT_NAME}-shared)
 else()
-    message(WARNING "codebase::utils was not created because neither UTILS_SHARED nor UTILS_STATIC were set")
+    message(WARNING "codebase::${PROJECT_NAME} was not created because neither UTILS_SHARED nor UTILS_STATIC were set")
 endif()
