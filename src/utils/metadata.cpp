@@ -1,6 +1,6 @@
 #include "utils/metadata.hpp"
 
-namespace core::systems
+namespace utils
 {
     std::ostream& operator<<(std::ostream& os, const Version& version)
     {

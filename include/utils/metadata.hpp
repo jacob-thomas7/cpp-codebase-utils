@@ -5,9 +5,6 @@
 #include <stdint.h>
 
 #include "core/system.hpp"
-#include "core/events/runtime.hpp"
-
-#include <functional>
 
 namespace utils
 {
@@ -23,7 +20,7 @@ namespace utils
     std::ostream& operator<<(std::ostream& os, const Version& version);
 
     //! \brief A core::System which contains metadata about the application
-    class Metadata : public System
+    class Metadata : public core::System
     {
     public:
         //! \brief The name of the application
@@ -38,7 +35,7 @@ namespace utils
 
         //! \brief Constructs Metadata, supplying default values
         Metadata(
-            Application& application,
+            core::Application& application,
             std::string_view name = "Application",
             Version version = { 1, 0, 0 },
             std::string_view license = "All Rights Reserved"
