@@ -6,7 +6,7 @@
 
 #include "core/system.hpp"
 
-namespace utils
+namespace crotale::utils
 {
     //! \brief Information on Semantic Versioning
     struct Version
@@ -35,10 +35,9 @@ namespace utils
 
         //! \brief Constructs Metadata, supplying default values
         Metadata(
-            core::Application& application,
             std::string_view name = "Application",
             Version version = { 1, 0, 0 },
             std::string_view license = "All Rights Reserved"
-        ) : System(this, application), name(name), version(version), license(license) {}
+        );
     };
 }
